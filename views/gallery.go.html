@@ -1,0 +1,45 @@
+{{ define "title" }}
+  Art Gallery
+{{ end }}
+
+{{ define "body" }}
+  <h1>Art Gallery</h1>
+  <ul class="commission-list">
+    {{ range.Commissions }}
+      <li data-ref-sheet="{{ .GetBool "ref" }}">
+        <a class="commission" href="/commissions/{{ .Id }}">
+          <h2 class="commission-description">{{ .GetString "description" }}</h2>
+          <h3 class="commission-artists-heading">Artists</h3>
+          <ul class="commission-artists-list">
+            {{ range .ExpandedAll "artists" }}
+              <li class="commission-artist">
+                {{ .GetString "name" }}
+              </li>
+            {{ end }}
+          </ul>
+          <h3 class="commission-images-heading">Images</h3>
+          <ul class="commission-images-list">
+            {{ range .ExpandedAll "images(commission)" }}
+              <li
+                class="commission-image"
+                data-nsfw="{{ .GetBool "nsfw" }}"
+                data-priority="{{ .GetFloat "priority" }}"
+              >
+                <img
+                  alt="{{ .GetString "name" }}"
+                  src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=100x100"
+                  srcset="
+                    /api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=200x200 2x
+                  "
+                  width="100"
+                  height="100"
+                  loading="lazy"
+                />
+              </li>
+            {{ end }}
+          </ul>
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

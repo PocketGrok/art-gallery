@@ -1,0 +1,26 @@
+{{ define "title" }}
+  Commission
+{{ end }}
+
+{{ define "body" }}
+  <h1>{{ .Commission.GetString "description" }}</h1>
+  <h2>Artists</h2>
+  <ul>
+    {{ range .Commission.ExpandedAll "artists" }}
+      <li>
+        {{ .GetString "name" }}
+      </li>
+    {{ end }}
+  </ul>
+  <h2>Images</h2>
+  <ul>
+    {{ range .Commission.ExpandedAll "images(commission)" }}
+      <li>
+        <img
+          alt="{{ .GetString "name" }}"
+          src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}"
+        />
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}
