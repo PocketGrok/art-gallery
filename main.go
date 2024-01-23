@@ -41,7 +41,7 @@ func main() {
 
 		// Home page: Art Gallery
 		e.Router.GET("/", func(c echo.Context) error {
-			commissions, err := app.Dao().FindRecordsByExpr("commissions")
+			commissions, err := app.Dao().FindRecordsByFilter("commissions", "completed != ''", "-completed", -1, 0)
 			if err != nil {
 				return apis.NewApiError(
 					http.StatusInternalServerError,
