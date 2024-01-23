@@ -3,42 +3,150 @@
 {{ end }}
 
 {{ define "body" }}
-  <h1>Art Gallery</h1>
+  <style>
+    .page-title {
+      text-align: center;
+      margin: 0;
+      padding: 2rem 0 1rem 0;
+    }
+    .commission-list {
+      display: flex;
+      width: 39rem;
+      max-width: 100%;
+      margin: auto;
+      padding: 1rem;
+      gap: 1rem;
+      justify-content: space-between;
+      flex-direction: column;
+      list-style: none;
+
+      > li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .commission-link {
+      display: block;
+      padding: 1rem;
+      background-color: #eee;
+      text-decoration: unset;
+      color: unset;
+
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+    .commission-description {
+      margin: 0;
+      padding-bottom: 1rem;
+      position: absolute;
+      visibility: hidden;
+    }
+    .commission-images-heading {
+      margin: 0;
+      padding-bottom: 1rem;
+      position: absolute;
+      visibility: hidden;
+    }
+    .commission-image {
+      display: none;
+      margin: auto;
+
+      &:first-child {
+        display: block;
+      }
+    }
+    .commission-thumbnails-list {
+      display: flex;
+      margin: 0;
+      padding: 1rem 0 0 0;
+      gap: 1rem;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .commission-thumbnail {
+      display: block;
+    }
+    .commission-artists-heading {
+      margin: 0;
+      padding: 1rem;
+      position: absolute;
+      visibility: hidden;
+    }
+    .commission-artists-list {
+      display: flex;
+      margin: 0 -0.5rem -1rem 0;
+      padding: 0;
+      font-size: 1rem;
+      line-height: 2rem;
+      gap: 1em;
+      list-style: none;
+      justify-content: end;
+      font-weight: 600;
+      color: #000000bb;
+    }
+  </style>
+
+  <h1 class="page-title">Art Gallery</h1>
   <ul class="commission-list">
     {{ range.Commissions }}
       <li data-ref-sheet="{{ .GetBool "ref" }}">
-        <a class="commission" href="/commissions/{{ .Id }}">
-          <h2 class="commission-description">{{ .GetString "description" }}</h2>
-          <h3 class="commission-artists-heading">Artists</h3>
-          <ul class="commission-artists-list">
-            {{ range .ExpandedAll "artists" }}
-              <li class="commission-artist">
-                {{ .GetString "name" }}
-              </li>
-            {{ end }}
-          </ul>
-          <h3 class="commission-images-heading">Images</h3>
-          <ul class="commission-images-list">
-            {{ range .ExpandedAll "images(commission)" }}
-              <li
-                class="commission-image"
-                data-nsfw="{{ .GetBool "nsfw" }}"
-                data-priority="{{ .GetFloat "priority" }}"
-              >
-                <img
-                  alt="{{ .GetString "name" }}"
-                  src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=100x100"
-                  srcset="
-                    /api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=200x200 2x
-                  "
-                  width="100"
-                  height="100"
-                  loading="lazy"
-                />
-              </li>
-            {{ end }}
-          </ul>
-        </a>
+        <article class="commission">
+          <a class="commission-link" href="/commissions/{{ .Id }}">
+            <h2 class="commission-description">
+              {{ .GetString "description" }}
+            </h2>
+            <section class="commission-images">
+              <h3 class="commission-images-heading">Images</h3>
+              <div>
+                {{ range .ExpandedAll "images(commission)" }}
+                  <img
+                    class="commission-image"
+                    alt="{{ .GetString "name" }}"
+                    src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=350x500f"
+                    srcset="
+                      /api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=700x1000f 2x
+                    "
+                    width="350"
+                    height="500"
+                    loading="lazy"
+                  />
+                {{ end }}
+              </div>
+              <ul class="commission-thumbnails-list">
+                {{ range .ExpandedAll "images(commission)" }}
+                  <li
+                    data-nsfw="{{ .GetBool "nsfw" }}"
+                    data-priority="{{ .GetFloat "priority" }}"
+                  >
+                    <img
+                      class="commission-thumbnail"
+                      alt="{{ .GetString "name" }}"
+                      src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=100x100"
+                      srcset="
+                        /api/files/images/{{ .Id }}/{{ .GetString "file" }}?thumb=200x200 2x
+                      "
+                      width="100"
+                      height="100"
+                      loading="lazy"
+                    />
+                  </li>
+                {{ end }}
+              </ul>
+            </section>
+            <section class="commission-artists">
+              <h3 class="commission-artists-heading">Artists</h3>
+              <ul class="commission-artists-list">
+                {{ range .ExpandedAll "artists" }}
+                  <li class="commission-artist">
+                    {{ .GetString "name" }}
+                  </li>
+                {{ end }}
+              </ul>
+            </section>
+          </a>
+        </article>
       </li>
     {{ end }}
   </ul>

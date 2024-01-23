@@ -3,24 +3,70 @@
 {{ end }}
 
 {{ define "body" }}
-  <h1>{{ .Commission.GetString "description" }}</h1>
-  <h2>Artists</h2>
-  <ul>
-    {{ range .Commission.ExpandedAll "artists" }}
-      <li>
-        {{ .GetString "name" }}
-      </li>
-    {{ end }}
-  </ul>
-  <h2>Images</h2>
-  <ul>
-    {{ range .Commission.ExpandedAll "images(commission)" }}
-      <li>
-        <img
-          alt="{{ .GetString "name" }}"
-          src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}"
-        />
-      </li>
-    {{ end }}
-  </ul>
+  <style>
+    .artists {
+      h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+      ul {
+        display: flex;
+        margin: 0;
+        padding: 1.5rem;
+        gap: 1em;
+        list-style: none;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 300;
+      }
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .images {
+      h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 1.5rem;
+        gap: 1rem;
+        list-style: none;
+      }
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  </style>
+  <h1 class="page-title">{{ .Commission.GetString "description" }}</h1>
+  <section class="artists">
+    <h2>Artists</h2>
+    <ul>
+      {{ range .Commission.ExpandedAll "artists" }}
+        <li>
+          {{ .GetString "name" }}
+        </li>
+      {{ end }}
+    </ul>
+  </section>
+  <section class="images">
+    <h2>Images</h2>
+    <ul>
+      {{ range .Commission.ExpandedAll "images(commission)" }}
+        <li>
+          <img
+            alt="{{ .GetString "name" }}"
+            src="/api/files/images/{{ .Id }}/{{ .GetString "file" }}"
+          />
+        </li>
+      {{ end }}
+    </ul>
+  </section>
 {{ end }}
