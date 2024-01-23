@@ -10,7 +10,7 @@ An art gallery website built using [PocketBase](https://pocketbase.io/).
 - [Node.js](https://nodejs.org/en)
 - [VSCode](https://code.visualstudio.com/)
 
-### Run the website
+### Run the website for development
 
 ```sh
 go run main.go serve
@@ -21,3 +21,9 @@ go run main.go serve
 - Run `go get` to install dependencies
 - Run `npm install` to install dependencies for Go HTML template formatting
 - Open this directory in VSCode
+
+## Docker
+
+```sh
+docker compose up -d
+```

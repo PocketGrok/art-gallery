@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  art-gallery:
+    container_name: art-gallery
+    build: .
+    image: art-gallery:latest
+    # volumes:
+    #   - pb_data:/usr/src/app/pb_data
+    ports:
+      - "8090:8090"
+# volumes:
+#   pb_data:
+#     name: pocketbase-data-volume
